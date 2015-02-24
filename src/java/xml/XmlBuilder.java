@@ -15,8 +15,8 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import javax.faces.context.FacesContext;
 
-/**
- *
+/** Build xml contents from freemarker templates
+ * @see <a href="http://freemarker.org/">freemarker</a>
  * @author mlarour
  */
 public class XmlBuilder {
@@ -25,6 +25,11 @@ public class XmlBuilder {
     private static Template templateSensorML = null; 
     private static Template templateSosRequest = null; 
                  
+    /** Build the freemarker templates to be ready to use
+     * 
+     * @param templateDir the freemarker template files directory
+     * @throws IOException 
+     */
     private static void configure(File templateDir) throws IOException
     {        
         if(cfg == null && templateSensorML == null)
@@ -42,9 +47,9 @@ public class XmlBuilder {
     /** Merge data-model with template for SensorML
      * 
      * @param observationModel data-model to merge to observation template
-     * @return
-     * @throws IOException
-     * @throws TemplateException 
+     * @return the SensorML xml content
+     * @throws IOException IO error
+     * @throws TemplateException merge failed
      */
     public static synchronized String buildSensorML(HashMap observationModel) throws IOException, TemplateException
     {                        
@@ -57,9 +62,9 @@ public class XmlBuilder {
     /** Merge data-model with template for Sos Request
      * 
      * @param observationModel data-model to merge to observation template
-     * @return
-     * @throws IOException
-     * @throws TemplateException 
+     * @return the xml sos request content 
+     * @throws IOException IO error
+     * @throws TemplateException Merge failed
      */
     public static synchronized String buildSosRequest(HashMap observationModel) throws IOException, TemplateException
     {                        

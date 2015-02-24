@@ -36,7 +36,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import xml.XmlBuilder;
 
-/**
+/** Bean for primefaces interface
  *
  * @author mlarour
  */
@@ -47,14 +47,14 @@ public class ObservationBean implements Serializable {
     private static final String insertObservationEndUrlString = "sos?service=SOS&version=2.0&request=insertObservation";
     private static final String restEndUrlBeforeUuidString = "record/";
 
-    /**
-     * @return the insertObservationUrlString
+    /** Getter for insertObservationUrlString 
+     * @return "sos?service=SOS&amp;version=2.0&amp;request=insertObservation" 
      */
     public String getInsertObservationUrlString() {
         return insertObservationUrlString;
     }
 
-    /**
+    /** Setter for insertObservationUrlString
      * @param aInsertObservationUrlString the insertObservationUrlString to set
      */
     public void setInsertObservationUrlString(String aInsertObservationUrlString) {
@@ -85,6 +85,9 @@ public class ObservationBean implements Serializable {
     
     private static String insertObservationUrlString;  
     
+    /** Post Constructor initialization
+     * 
+     */
     @PostConstruct
     private void init()
     {        
@@ -102,7 +105,9 @@ public class ObservationBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, sce.getMessage(),sce.getMessage()));
         }        
     }
-    
+    /** Clean bean values
+     * 
+     */
     private void clean()
     {
         siteCode    = "";
@@ -119,6 +124,9 @@ public class ObservationBean implements Serializable {
         fileFormat       = "application/netcdf";        
     }
     
+    /** Sample initialization for tests
+     * 
+     */
     private void initPylos()
     {
         System.out.println("**** observationBean.initPylos()");
@@ -136,13 +144,16 @@ public class ObservationBean implements Serializable {
         fileNameRequired = uuid+".MO_201410_TS_MO_61277.nc";
         fileFormat       = "application/netcdf";        
     }
-    
+    /** Observation Bean Constructor for primefaces interface
+     * 
+     */
     public ObservationBean() {
     }
                 
-    /**  
+    /**  Perform the physical copy of the uploaded file on disk server defined 
+     * with snnany-upload= in WEB-INF/snannyConfig.properties
      * 
-     * @param event
+     * @param event the File Upload event having the temporary file uploaded by primefaces 
      */
      public void handleFileUpload(FileUploadEvent event)
     {        
@@ -161,13 +172,7 @@ public class ObservationBean implements Serializable {
         
     }
            
-    /* sample code for data model
-      sensorMLmodel.put("siteCode", "Big Joe");
-      Map latest = new HashMap();
-      sensorMLmodel.put("latestProduct", latest);
-      latest.put("url", "products/greenmouse.html");
-      latest.put("name", "green mouse");
-    */
+    
     /** getter for the observation data model
      * 
      * @return the observation data model
@@ -191,14 +196,9 @@ public class ObservationBean implements Serializable {
         
         return(sensorMLmodel);
     }
-    /* sample code for data model
-      sensorMLmodel.put("siteCode", "Big Joe");
-      Map latest = new HashMap();
-      sensorMLmodel.put("latestProduct", latest);
-      latest.put("url", "products/greenmouse.html");
-      latest.put("name", "green mouse");
-    */
-    /** getter for the observation data model
+    
+    /** getter for the observation data model to process with freemarker 
+     * observation template to get xml observation (O&M)
      * 
      * @return the observation data model
      */
@@ -209,6 +209,10 @@ public class ObservationBean implements Serializable {
         return(sosRequestModel);
     }
     
+    /** build observation xml,sos request xml, post to sost-server and clean bean 
+     * 
+     * @param actionEvent the primefaces action
+     */
     public void insertAction(ActionEvent actionEvent)
     {
         try
@@ -226,6 +230,11 @@ public class ObservationBean implements Serializable {
 
     }
     
+    /** Post the xml request (insert observation) to sost-server
+     * 
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
     private void insertObservation() throws MalformedURLException, IOException
     {
         System.out.println(sosRequest);
@@ -254,12 +263,21 @@ public class ObservationBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
+    /** build observation xml,sos request xml
+     * 
+     * @throws IOException
+     * @throws TemplateException 
+     */
     private void buildXmls() throws IOException, TemplateException
     {
         oem = XmlBuilder.buildSensorML(getSensorMLmodel());
         sosRequest = XmlBuilder.buildSosRequest(getSosRequestModel(oem));
     }
     
+    /** Fill the preview tabs (O&amp;M xml and SOS request) in primefaces interface
+     * 
+     * @param actionEvent the primefaces action
+     */
     public void previewAction(ActionEvent actionEvent)
     {        
         try
@@ -273,115 +291,115 @@ public class ObservationBean implements Serializable {
         }
     }        
     
-    /**
-     * @return the oem
+    /** Getter for O&amp;M xml content
+     * @return the xml bean value
      */
     public String getOem() {
         
         return oem;
     }
 
-    /**
-     * @param oem the oem to set
+    /** Setter for O&amp;M xml content
+     * @param oem content bean value to set
      */
     public void setOem(String oem) {
         this.oem = oem;
     }
     
 
-    /**
-     * @return the latitude
+    /** Getter for the latitude
+     * @return the latitude bean value
      */
     public Double getLatitude() {
         return latitude;
     }
 
-    /**
-     * @param latitude the latitude to set
+    /** Setter for the latitude
+     * @param latitude the latitude bean value to set
      */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    /**
-     * @return the longitude
+    /** Setter for the longitude
+     * @return the longitude bean value
      */
     public Double getLongitude() {
         return longitude;
     }
 
-    /**
-     * @param longitude the longitude to set
+    /** Setter for the longitude
+     * @param longitude the longitude bean value to set
      */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    /**
-     * @return the dataType
+    /** Getter for the data type
+     * @return the data type bean value
      */
     public String getDataType() {
         return dataType;
     }
 
-    /**
-     * @param dataType the dataType to set
+    /** Setter for the data type
+     * @param dataType the data type bean value to set
      */
     public void setDataType(String dataType) {
         this.dataType = dataType;
     }
 
-    /**
-     * @return the siteCode
+    /**Getter for the site Code
+     * @return the site code bean value
      */
     public String getSiteCode() {
         return siteCode;
     }
 
-    /**
-     * @param siteCode the siteCode to set
+    /**Setter for the site Code
+     * @param siteCode the site code bean value to set
      */
     public void setSiteCode(String siteCode) {
         this.siteCode = siteCode;
     }
 
-    /**
-     * @return the from
+    /** Getter for the begin date
+     * @return the begin date bean value
      */
     public Date getFrom() {
         return from;
     }
 
-    /**
-     * @param from the from to set
+    /**Setter for the begin date
+     * @param from the begin date bean value to set
      */
     public void setFrom(Date from) {
         this.from = from;
     }
 
-    /**
-     * @return the to
+    /** Getter for the end date
+     * @return the end date bean value
      */
     public Date getTo() {
         return to;
     }
 
-    /**
-     * @param to the to to set
+    /** Setter for the end date
+     * @param to the end date  bean value to set
      */
     public void setTo(Date to) {
         this.to = to;
     }
 
-    /**
-     * @return the fileFormat
+    /** Getter for the file format
+     * @return the file format bean value
      */
     public String getFileFormat() {
         return fileFormat;
     }
 
-    /**
-     * @param fileFormat the fileFormat to set
+    /** Setter for the file format
+     * @param fileFormat the file format bean value to set
      */
     public void setFileFormat(String fileFormat) {
         this.fileFormat = fileFormat;
@@ -389,29 +407,29 @@ public class ObservationBean implements Serializable {
 
     
 
-    /**
-     * @return the uuid
+    /** Getter for the uuid
+     * @return the uuid bean value
      */
     public String getUuid() {
         return uuid;
     }
 
-    /**
-     * @param uuid the uuid to set
+    /** Setter for the uuid
+     * @param uuid the uuid bean value to set
      */
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    /**
-     * @return the datasetName
+    /** Getter for the dataset name
+     * @return the dataset name bean value
      */
     public String getDatasetName() {
         return datasetName;
     }
 
-    /**
-     * @param datasetName the datasetName to set
+    /** Setter for the dataset name
+     * @param datasetName the dataset name bean value to set
      */
     public void setDatasetName(String datasetName) {
         this.datasetName = datasetName;
@@ -419,71 +437,73 @@ public class ObservationBean implements Serializable {
 
      
 
-    /**
-     * @return the fileName
+    /** Getter for the uploaded file name
+     * @return the uploaded file name bean value
      */
     public String getFileName() {        
         return fileName;
     }
 
-    /**
-     * @param fileName the fileName to set
+    /** Setter for the uploaded file name
+     * @param fileName the uploaded file name bean value to set
      */
     public void setFileName(String fileName) {        
         this.fileName = fileName;
     }
 
-    /**
-     * @return the sosRequest
+    /** Getter for the sos request xml content
+     * @return the sos request content bean value
      */
     public String getSosRequest() {
         return sosRequest;
     }
 
-    /**
-     * @param sosRequest the sosRequest to set
+    /** Setter for the sos request xml content
+     * @param sosRequest the sos request content to set
      */
     public void setSosRequest(String sosRequest) {
         this.sosRequest = sosRequest;
     }
 
-    /**
-     * @return the fileNameRequired
+    /** Duplicate of file name bean for primefaces messages,
+     * Getter for the uploaded file name
+     * @return the uploaded file name bean value
      */
     public String getFileNameRequired() {
         return fileNameRequired;
     }
 
-    /**
-     * @param fileNameRequired the fileNameRequired to set
+    /** Duplicate of file name bean for primefaces messages,
+     * Setter for the uploaded file name
+     * @param fileNameRequired the uploaded file name bean value to set
      */
     public void setFileNameRequired(String fileNameRequired) {
         this.fileNameRequired = fileNameRequired;
     }
 
-    /**
-     * @return the configurable
+    /**Setter for snnanyObservation configuration state 
+     * @return the configurable bean value <ul><li>true snnanyObservation is configured</li><li>false failed to configure snnanyObservation</li></ul>
      */
     public boolean isConfigurable() {
         return configurable;
     }
 
-    /**
-     * @param configurable the configurable to set
+    /** Setter for snnanyObservation configuration state 
+     * @param configurable the configurable bean value to set<ul><li>true snnanyObservation is configured</li><li>false failed to configure snnanyObservation</li></ul>
      */
     public void setConfigurable(boolean configurable) {
         this.configurable = configurable;
     }
 
-    /**
-     * @return the sensorMLuuid
+    /** Getter for the associated sensorMl uuid
+     * @return the sensorML uuid bean value
      */
     public String getSensoruuid() {
         return sensoruuid;
     }
 
-    /**
-     * @param sensoruuid the sensorMLuuid to set
+    /** Setter for the associated sensorMl uuid
+     * @param sensoruuid the sensorML uuid bean value to set
      */
     public void setSensoruuid(String sensoruuid) {
         this.sensoruuid = sensoruuid;

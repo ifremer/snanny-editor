@@ -13,7 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.FaceletException;
 
-/**
+/** Manage /WEB-INF/snannyConfig.properties
  *
  * @author mlarour
  */
@@ -37,9 +37,8 @@ public class SnannyConfig
     
     /** Getter for the singleton, perform initialization at first call
      * 
-     * @param servletContext the servlet context
      * @return the the unique instance
-     * @throws SnannySostServerException if properties can't be loaded at first call
+     * @throws SnannyConfigException if properties can't be loaded at first call
      */
     public static synchronized SnannyConfig singleton() throws SnannyConfigException
     {        
@@ -113,15 +112,15 @@ public class SnannyConfig
         return charset;
     }
 
-    /**
-     * @return the snannySostServer
+    /** Getter for the URL of snannySostServer
+     * @return the snannySostServer URL
      */
     public String getSnannySostServer() {
         return snannySostServer;
     }
 
-    /**
-     * @return the snannyUpload
+    /** Getter for the server upload directory
+     * @return the snannyUpload path
      */
     public File getSnannyUpload() {
         return snannyUpload;

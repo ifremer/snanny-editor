@@ -5,7 +5,7 @@
  */
 package config;
 
-/**
+/** Used for configuration Exceptions
  *
  * @author mlarour
  */
