@@ -1,4 +1,4 @@
-# snanny-editor
+# snanny-editor (not maintained, not used)
 editor for systems and observations (through sensorML and O&amp;M formats)
 
 FOR THE IMPATIENT
